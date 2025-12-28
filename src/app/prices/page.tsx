@@ -191,7 +191,7 @@ export default function PricesPage() {
           </div>
 
           <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-light text-massage-text mb-4 tracking-tight">
-            Árlistánk
+            Árlista
           </h1>
           <p className="text-lg text-massage-text-muted max-w-xl mx-auto leading-relaxed">
             Fedezd fel szolgáltatásaimat és válaszd ki a számodra legmegfelelőbb kezelést
