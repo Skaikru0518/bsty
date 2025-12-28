@@ -87,6 +87,9 @@ export const metadata: Metadata = {
     apple: '/favicon.png',
   },
   category: 'health',
+  verification: {
+    google: 'KdwIsq8hBEcd6Ovm-_rySU_CN0dEKs-1wcqRn20ajik',
+  },
   other: {
     'geo.region': 'HU-HB',
     'geo.placename': 'Debrecen',
