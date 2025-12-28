@@ -89,6 +89,9 @@ export const metadata: Metadata = {
   category: 'health',
   verification: {
     google: 'KdwIsq8hBEcd6Ovm-_rySU_CN0dEKs-1wcqRn20ajik',
+    other: {
+      'facebook-domain-verification': 'uf2hc82go2lni7g264st8cqy9xkj9p',
+    },
   },
   other: {
     'geo.region': 'HU-HB',
