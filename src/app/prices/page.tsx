@@ -1,7 +1,14 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const priceData = [
   {
@@ -67,8 +74,79 @@ const priceData = [
 ];
 
 export default function PricesPage() {
+  const pageRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero animation on load
+      gsap.fromTo(
+        heroRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        }
+      );
+
+      // Price cards staggered animation
+      const cards = cardsRef.current?.querySelectorAll('.price-card');
+      if (cards && cards.length > 0) {
+        gsap.set(cards, { opacity: 0, y: 50 });
+
+        gsap.to(cards, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.3,
+        });
+      }
+
+      // Info note animation
+      gsap.fromTo(
+        infoRef.current,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: infoRef.current,
+            start: 'top 90%',
+          },
+        }
+      );
+
+      // CTA section animation
+      gsap.fromTo(
+        ctaRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: ctaRef.current,
+            start: 'top 85%',
+          },
+        }
+      );
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-massage-cream">
+    <div ref={pageRef} className="min-h-screen bg-massage-cream">
       {/* Decorative background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-150 h-150 bg-massage-lime/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
@@ -103,7 +181,7 @@ export default function PricesPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-16 pb-12">
+      <section ref={heroRef} className="relative z-10 pt-16 pb-12 opacity-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Decorative line */}
           <div className="flex items-center justify-center gap-4 mb-6">
@@ -116,7 +194,7 @@ export default function PricesPage() {
             Árlistánk
           </h1>
           <p className="text-lg text-massage-text-muted max-w-xl mx-auto leading-relaxed">
-            Fedezd fel szolgáltatásainkat és válaszd ki a számodra legmegfelelőbb kezelést
+            Fedezd fel szolgáltatásaimat és válaszd ki a számodra legmegfelelőbb kezelést
           </p>
         </div>
       </section>
@@ -124,11 +202,11 @@ export default function PricesPage() {
       {/* Price Cards */}
       <main className="relative z-10 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {priceData.map((service) => (
               <article
                 key={service.category}
-                className={`group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
+                className={`price-card opacity-0 group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
                   service.highlight ? 'ring-2 ring-massage-green/20' : ''
                 }`}
               >
@@ -188,17 +266,16 @@ export default function PricesPage() {
           </div>
 
           {/* Info Note */}
-          <div className="mt-12 text-center">
+          <div ref={infoRef} className="mt-12 text-center opacity-0">
             <div className="inline-flex items-center gap-3 bg-massage-sand/30 rounded-full px-6 py-3">
-              <div className="w-2 h-2 rounded-full bg-massage-green animate-pulse" />
               <p className="text-sm text-massage-text-muted">
-                Az árak forintban értendők · Kérszpénzes fizetés
+                Az árak forintban értendők · Készpénzes fizetés lehetséges
               </p>
             </div>
           </div>
 
           {/* CTA Section */}
-          <div className="mt-16 text-center">
+          <div ref={ctaRef} className="mt-16 text-center opacity-0">
             <div className="bg-linear-to-br from-massage-green to-massage-green-dark rounded-2xl p-8 sm:p-12 relative overflow-hidden">
               {/* Decorative circles */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full transform translate-x-1/2 -translate-y-1/2" />
@@ -206,7 +283,7 @@ export default function PricesPage() {
 
               <div className="relative z-10">
                 <h3 className="font-heading text-2xl sm:text-3xl font-light text-white mb-3">
-                  Készen állsz a pihenésre?
+                  Készen állsz a pihenésre vagy a regenerációra?
                 </h3>
                 <p className="text-white/80 mb-6 max-w-md mx-auto">
                   Foglalj időpontot Messengeren és engedd el a mindennapok feszültségét

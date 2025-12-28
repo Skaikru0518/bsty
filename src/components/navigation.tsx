@@ -12,6 +12,7 @@ export default function Navigation() {
     { href: '#kezdolap', label: 'Kezdőlap' },
     { href: '#szolgaltatasok', label: 'Szolgáltatások' },
     { href: '#rolam', label: 'Rólam' },
+    { href: '/prices', label: 'Áraim' },
     { href: '#kapcsolat', label: 'Kapcsolat' },
   ];
 

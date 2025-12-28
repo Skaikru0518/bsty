@@ -113,9 +113,9 @@ export default function ServicesSection() {
   return (
     <section ref={sectionRef} id="szolgaltatasok" className="py-20 bg-massage-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div ref={headerRef} className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16 opacity-0">
           <h2 className="font-heading text-4xl sm:text-5xl font-light text-massage-text mb-4">
-            Szolgáltatásaink
+            Szolgáltatásaim
           </h2>
           <p className="text-lg text-massage-text-muted max-w-2xl mx-auto leading-relaxed">
             Válassz igényeidnek megfelelő kezelést a teljes körű ellazulásért
@@ -126,7 +126,7 @@ export default function ServicesSection() {
           {services.map((service) => (
             <Card
               key={service.name}
-              className="service-card group border-massage-pink hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden p-4"
+              className="service-card opacity-0 group border-massage-pink hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full overflow-hidden p-4"
             >
               {/* Kép */}
               <div className="relative h-64 rounded-lg bg-massage-lime/30 overflow-hidden">
@@ -157,7 +157,7 @@ export default function ServicesSection() {
         </div>
 
         {/* CTA Button */}
-        <div ref={ctaRef} className="mt-12 text-center">
+        <div ref={ctaRef} className="mt-12 text-center opacity-0">
           <Button asChild size="lg" variant="outline" className="text-base px-8 group">
             <Link href="/prices">
               Teljes árlista megtekintése
