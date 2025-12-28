@@ -7,7 +7,6 @@
     "pnpm": ">=10.0.0"
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
     "build": "next build --turbopack && node -e \"const fs=require('fs');const path=require('path');const src='.next/static';const dest='.next/standalone/apps/web/.next/static';fs.cpSync(src,dest,{recursive:true});const pubSrc='public';const pubDest='.next/standalone/apps/web/public';if(fs.existsSync(pubSrc))fs.cpSync(pubSrc,pubDest,{recursive:true});\"",
     "start": "next start",
