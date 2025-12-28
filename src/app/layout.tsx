@@ -15,7 +15,7 @@ const inter = Inter({
   variable: '--font-body',
 });
 
-const siteUrl = 'https://bastyamasszazs.hu';
+const siteUrl = 'https://bastya-masszazs.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
