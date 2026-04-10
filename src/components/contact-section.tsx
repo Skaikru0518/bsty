@@ -11,60 +11,87 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLSpanElement>(null);
+  const decorLineRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtextRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header animation
-      gsap.fromTo(
-        headerRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 85%',
-          },
-        }
-      );
+      // --- Header timeline ---
+      const headerTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
+        defaults: { ease: 'power4.out' },
+      });
 
-      // Left cards animation - slide from left
-      gsap.fromTo(
-        cardsRef.current,
-        { opacity: 0, x: -60 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
+      gsap.set(taglineRef.current, { visibility: 'visible', opacity: 0, y: 15, letterSpacing: '0.4em' });
+      gsap.set(decorLineRef.current, { visibility: 'visible', scaleX: 0 });
+      gsap.set(headingRef.current, { visibility: 'visible', opacity: 0, y: 40, clipPath: 'inset(0 0 100% 0)' });
+      gsap.set(subtextRef.current, { visibility: 'visible', opacity: 0, y: 20 });
 
-      // Map animation - slide from right
-      gsap.fromTo(
-        mapRef.current,
-        { opacity: 0, x: 60 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: mapRef.current,
-            start: 'top 75%',
+      headerTl
+        .to(taglineRef.current, { opacity: 1, y: 0, letterSpacing: '0.25em', duration: 0.7 })
+        .to(decorLineRef.current, { scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0.2)
+        .to(headingRef.current, { opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1 }, 0.35)
+        .to(subtextRef.current, { opacity: 1, y: 0, duration: 0.7 }, 0.7);
+
+      // --- Cards staggered reveal ---
+      const cards = cardsRef.current?.querySelectorAll('.contact-card');
+      if (cards && cards.length > 0) {
+        gsap.set(cards, { visibility: 'visible', opacity: 0, y: 40, scale: 0.97 });
+
+        // Info rows inside the second card
+        const infoRows = cardsRef.current?.querySelectorAll('.info-row');
+        if (infoRows) gsap.set(infoRows, { opacity: 0, x: -20 });
+
+        ScrollTrigger.create({
+          trigger: cardsRef.current,
+          start: 'top 72%',
+          onEnter: () => {
+            gsap.to(cards, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.9,
+              stagger: 0.2,
+              ease: 'power3.out',
+            });
+
+            // Info rows stagger after cards
+            if (infoRows) {
+              gsap.to(infoRows, {
+                opacity: 1,
+                x: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                delay: 0.5,
+                ease: 'power3.out',
+              });
+            }
           },
-          delay: 0.2,
-        }
-      );
+        });
+      }
+
+      // --- Map: clip-path reveal ---
+      gsap.set(mapRef.current, { visibility: 'visible', clipPath: 'inset(0 100% 0 0)' });
+
+      ScrollTrigger.create({
+        trigger: mapRef.current,
+        start: 'top 72%',
+        onEnter: () => {
+          gsap.to(mapRef.current, {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 1.2,
+            ease: 'power4.inOut',
+            delay: 0.3,
+          });
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -73,11 +100,27 @@ export function ContactSection() {
   return (
     <section ref={sectionRef} id="kapcsolat" className="py-20 bg-massage-sand overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div ref={headerRef} className="text-center mb-16">
-          <h2 className="font-heading text-4xl sm:text-5xl font-light text-massage-text mb-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span
+            ref={taglineRef}
+            className="invisible inline-block text-xs font-medium uppercase tracking-[0.25em] text-massage-green-dark/70 mb-4"
+          >
+            Elérhetőség
+          </span>
+          <div className="flex justify-center mb-5">
+            <div ref={decorLineRef} className="invisible w-10 h-px bg-massage-green-dark/25 origin-center" />
+          </div>
+          <h2
+            ref={headingRef}
+            className="invisible font-heading text-4xl sm:text-5xl font-light text-massage-text mb-4"
+          >
             Kapcsolat
           </h2>
-          <p className="text-lg text-massage-text-muted max-w-2xl mx-auto leading-relaxed">
+          <p
+            ref={subtextRef}
+            className="invisible text-lg text-massage-text-muted max-w-2xl mx-auto leading-relaxed"
+          >
             Látogass el hozzám és tapasztald meg a professzionális masszázs varázsát
           </p>
         </div>
@@ -85,7 +128,7 @@ export function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
           <div ref={cardsRef} className="flex flex-col gap-6">
             {/* Időpontfoglalás CTA */}
-            <Card className="bg-massage-green text-white">
+            <Card className="contact-card invisible bg-massage-green text-white">
               <CardContent className="p-8">
                 <h3 className="font-heading text-2xl font-semibold mb-3">Időpontfoglalás</h3>
                 <p className="text-white/80 mb-6">
@@ -105,9 +148,9 @@ export function ContactSection() {
             </Card>
 
             {/* Kapcsolati információk */}
-            <Card className="flex-1">
+            <Card className="contact-card invisible flex-1">
               <CardContent className="p-8 h-full flex flex-col justify-between gap-6">
-                <div className="flex items-start gap-4">
+                <div className="info-row flex items-start gap-4">
                   <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-massage-lime shrink-0">
                     <Phone className="w-6 h-6 text-massage-green" />
                   </div>
@@ -122,7 +165,7 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
+                <div className="info-row flex items-start gap-4">
                   <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-massage-lime shrink-0">
                     <MapPin className="w-6 h-6 text-massage-green" />
                   </div>
@@ -132,7 +175,7 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
+                <div className="info-row flex items-start gap-4">
                   <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-massage-lime shrink-0">
                     <Clock className="w-6 h-6 text-massage-green" />
                   </div>
@@ -149,8 +192,8 @@ export function ContactSection() {
             </Card>
           </div>
 
-          {/* Google Maps Embed */}
-          <div ref={mapRef}>
+          {/* Google Maps */}
+          <div ref={mapRef} className="invisible">
             <Card className="overflow-hidden h-full p-0">
               <CardContent className="p-0 h-full">
                 <iframe

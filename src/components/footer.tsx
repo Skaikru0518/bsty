@@ -1,5 +1,12 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
 import { Phone, Mail, MapPin, Facebook } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -10,11 +17,70 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 export default function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const columnsRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
+  const copyrightRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Columns stagger
+      const cols = columnsRef.current?.querySelectorAll('.footer-col');
+      if (cols && cols.length > 0) {
+        gsap.set(cols, { autoAlpha: 0, y: 25 });
+        ScrollTrigger.create({
+          trigger: footerRef.current,
+          start: 'top 88%',
+          onEnter: () => {
+            gsap.to(cols, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.12,
+              ease: 'power3.out',
+            });
+          },
+        });
+      }
+
+      // Divider line
+      gsap.set(dividerRef.current, { scaleX: 0 });
+      ScrollTrigger.create({
+        trigger: dividerRef.current,
+        start: 'top 92%',
+        onEnter: () => {
+          gsap.to(dividerRef.current, {
+            scaleX: 1,
+            duration: 0.8,
+            ease: 'power2.inOut',
+          });
+        },
+      });
+
+      // Copyright
+      gsap.set(copyrightRef.current, { autoAlpha: 0 });
+      ScrollTrigger.create({
+        trigger: copyrightRef.current,
+        start: 'top 95%',
+        onEnter: () => {
+          gsap.to(copyrightRef.current, {
+            autoAlpha: 1,
+            duration: 0.6,
+            delay: 0.3,
+            ease: 'power3.out',
+          });
+        },
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-massage-green-dark text-white py-12">
+    <footer ref={footerRef} className="bg-massage-green-dark text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
+        <div ref={columnsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="footer-col">
             <Image
               src="/images/logo2.png"
               alt="Bástya Masszázs"
@@ -46,7 +112,7 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div>
+          <div className="footer-col">
             <h4 className="font-semibold mb-4">Gyors linkek</h4>
             <ul className="space-y-2 text-sm text-white/80">
               <li>
@@ -76,7 +142,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div>
+          <div className="footer-col">
             <h4 className="font-semibold mb-4">Elérhetőség</h4>
             <ul className="space-y-3 text-sm text-white/80">
               <li className="flex items-center gap-2">
@@ -105,9 +171,16 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-white/20 pt-8 text-center text-sm text-white/60">
-          <p>&copy; {new Date().getFullYear()} Bástya Masszázs. Minden jog fenntartva.</p>
-        </div>
+        <div
+          ref={dividerRef}
+          className="border-t border-white/20 origin-left"
+        />
+        <p
+          ref={copyrightRef}
+          className="invisible pt-8 text-center text-sm text-white/60"
+        >
+          &copy; {new Date().getFullYear()} Bástya Masszázs. Minden jog fenntartva.
+        </p>
       </div>
     </footer>
   );

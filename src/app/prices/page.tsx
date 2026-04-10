@@ -71,75 +71,114 @@ const priceData = [
     description: 'Ősi ayurvédikus technika a fej, nyak és váll területén',
     prices: [{ duration: '30', price: '6.500' }],
   },
+  {
+    category: 'Svéd technikás arcfrissítő masszázs',
+    icon: '◎',
+    description: 'Svéd masszázs technikával végzett arckezelés a bőr revitalizálásáért és az arcizmok ellazításáért',
+    prices: [{ duration: '30', price: '6.500' }],
+  },
 ];
 
 export default function PricesPage() {
   const pageRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLSpanElement>(null);
+  const decorLineRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtextRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero animation on load
-      gsap.fromTo(
-        heroRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-        }
-      );
+      // --- Hero header timeline (on load, no scroll trigger) ---
+      const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-      // Price cards staggered animation
+      gsap.set(taglineRef.current, { autoAlpha: 0, y: 15, letterSpacing: '0.4em' });
+      gsap.set(decorLineRef.current, { autoAlpha: 0, scaleX: 0 });
+      gsap.set(headingRef.current, { autoAlpha: 0, y: 40, clipPath: 'inset(0 0 100% 0)' });
+      gsap.set(subtextRef.current, { autoAlpha: 0, y: 20 });
+
+      heroTl
+        .to(taglineRef.current, { autoAlpha: 1, y: 0, letterSpacing: '0.25em', duration: 0.7 }, 0.2)
+        .to(decorLineRef.current, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0.4)
+        .to(headingRef.current, { autoAlpha: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1 }, 0.5)
+        .to(subtextRef.current, { autoAlpha: 1, y: 0, duration: 0.7 }, 0.9);
+
+      // --- Cards staggered on load ---
       const cards = cardsRef.current?.querySelectorAll('.price-card');
       if (cards && cards.length > 0) {
-        gsap.set(cards, { opacity: 0, y: 50 });
+        gsap.set(cards, { autoAlpha: 0, y: 50, scale: 0.97 });
 
-        gsap.to(cards, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          delay: 0.3,
+        heroTl.to(
+          cards,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.7,
+            stagger: 0.1,
+            ease: 'power3.out',
+          },
+          1.1
+        );
+
+        // Price rows inside each card animate after card appears
+        cards.forEach((card, cardIndex) => {
+          const rows = card.querySelectorAll('.price-row');
+          if (rows.length > 0) {
+            gsap.set(rows, { opacity: 0, x: -15 });
+            heroTl.to(
+              rows,
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.4,
+                stagger: 0.06,
+                ease: 'power3.out',
+              },
+              1.3 + cardIndex * 0.1
+            );
+          }
         });
       }
 
-      // Info note animation
-      gsap.fromTo(
-        infoRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: infoRef.current,
-            start: 'top 90%',
-          },
-        }
-      );
+      // --- Info note ---
+      gsap.set(infoRef.current, { autoAlpha: 0, y: 15 });
+      ScrollTrigger.create({
+        trigger: infoRef.current,
+        start: 'top 88%',
+        onEnter: () => {
+          gsap.to(infoRef.current, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+        },
+      });
 
-      // CTA section animation
-      gsap.fromTo(
-        ctaRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: ctaRef.current,
-            start: 'top 85%',
-          },
-        }
-      );
+      // --- CTA section ---
+      gsap.set(ctaRef.current, { autoAlpha: 0, y: 30 });
+      ScrollTrigger.create({
+        trigger: ctaRef.current,
+        start: 'top 82%',
+        onEnter: () => {
+          const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+          tl.to(ctaRef.current, { autoAlpha: 1, y: 0, duration: 0.8 });
+
+          const heading = ctaRef.current?.querySelector('.cta-heading');
+          const text = ctaRef.current?.querySelector('.cta-text');
+          const btn = ctaRef.current?.querySelector('.cta-btn');
+          if (heading) {
+            gsap.set(heading, { opacity: 0, y: 20 });
+            tl.to(heading, { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+          }
+          if (text) {
+            gsap.set(text, { opacity: 0, y: 15 });
+            tl.to(text, { opacity: 1, y: 0, duration: 0.5 }, 0.35);
+          }
+          if (btn) {
+            gsap.set(btn, { opacity: 0, scale: 0.95 });
+            tl.to(btn, { opacity: 1, scale: 1, duration: 0.5 }, 0.5);
+          }
+        },
+      });
     }, pageRef);
 
     return () => ctx.revert();
@@ -181,19 +220,27 @@ export default function PricesPage() {
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative z-10 pt-16 pb-12 opacity-0">
+      <section className="relative z-10 pt-16 pb-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Decorative line */}
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-px w-12 bg-linear-to-r from-transparent to-massage-green/50" />
-            <Sparkles className="w-5 h-5 text-massage-green/50" />
-            <div className="h-px w-12 bg-linear-to-l from-transparent to-massage-green/50" />
+          <span
+            ref={taglineRef}
+            className="invisible inline-block text-xs font-medium uppercase tracking-[0.25em] text-massage-green-dark/70 mb-4"
+          >
+            Kezelések & árak
+          </span>
+          <div className="flex justify-center mb-5">
+            <div ref={decorLineRef} className="invisible w-10 h-px bg-massage-green-dark/25 origin-center" />
           </div>
-
-          <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-light text-massage-text mb-4 tracking-tight">
+          <h1
+            ref={headingRef}
+            className="invisible font-heading text-5xl sm:text-6xl lg:text-7xl font-light text-massage-text mb-4 tracking-tight"
+          >
             Árlista
           </h1>
-          <p className="text-lg text-massage-text-muted max-w-xl mx-auto leading-relaxed">
+          <p
+            ref={subtextRef}
+            className="invisible text-lg text-massage-text-muted max-w-xl mx-auto leading-relaxed"
+          >
             Fedezd fel szolgáltatásaimat és válaszd ki a számodra legmegfelelőbb kezelést
           </p>
         </div>
@@ -206,7 +253,7 @@ export default function PricesPage() {
             {priceData.map((service) => (
               <article
                 key={service.category}
-                className={`price-card opacity-0 group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
+                className={`price-card invisible group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
                   service.highlight ? 'ring-2 ring-massage-green/20' : ''
                 }`}
               >
@@ -241,7 +288,7 @@ export default function PricesPage() {
                     {service.prices.map((item, priceIndex) => (
                       <div
                         key={priceIndex}
-                        className="flex items-center justify-between group/item hover:bg-massage-cream/50 -mx-3 px-3 py-2 rounded-lg transition-colors"
+                        className="price-row opacity-0 flex items-center justify-between group/item hover:bg-massage-cream/50 -mx-3 px-3 py-2 rounded-lg transition-colors"
                       >
                         <div className="flex items-center gap-2 text-massage-text">
                           <Clock className="w-4 h-4 text-massage-text-muted/60" />
@@ -266,7 +313,7 @@ export default function PricesPage() {
           </div>
 
           {/* Info Note */}
-          <div ref={infoRef} className="mt-12 text-center opacity-0">
+          <div ref={infoRef} className="invisible mt-12 text-center">
             <div className="inline-flex items-center gap-3 bg-massage-sand/30 rounded-full px-6 py-3">
               <p className="text-sm text-massage-text-muted">
                 Az árak forintban értendők · Készpénzes fizetés lehetséges
@@ -275,23 +322,23 @@ export default function PricesPage() {
           </div>
 
           {/* CTA Section */}
-          <div ref={ctaRef} className="mt-16 text-center opacity-0">
+          <div ref={ctaRef} className="invisible mt-16 text-center">
             <div className="bg-linear-to-br from-massage-green to-massage-green-dark rounded-2xl p-8 sm:p-12 relative overflow-hidden">
               {/* Decorative circles */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full transform translate-x-1/2 -translate-y-1/2" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full transform -translate-x-1/2 translate-y-1/2" />
 
               <div className="relative z-10">
-                <h3 className="font-heading text-2xl sm:text-3xl font-light text-white mb-3">
+                <h3 className="cta-heading font-heading text-2xl sm:text-3xl font-light text-white mb-3">
                   Készen állsz a pihenésre vagy a regenerációra?
                 </h3>
-                <p className="text-white/80 mb-6 max-w-md mx-auto">
+                <p className="cta-text text-white/80 mb-6 max-w-md mx-auto">
                   Foglalj időpontot Messengeren és engedd el a mindennapok feszültségét
                 </p>
                 <Button
                   asChild
                   size="lg"
-                  className="bg-white text-massage-green hover:bg-massage-cream hover:text-massage-green-dark text-base px-8 shadow-lg"
+                  className="cta-btn bg-white text-massage-green hover:bg-massage-cream hover:text-massage-green-dark text-base px-8 shadow-lg"
                 >
                   <a href="https://m.me/573202689206362" target="_blank" rel="noopener noreferrer">
                     Időpont foglalás
