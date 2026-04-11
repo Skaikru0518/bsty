@@ -74,7 +74,8 @@ const priceData = [
   {
     category: 'Svéd technikás arcfrissítő masszázs',
     icon: '◎',
-    description: 'Svéd masszázs technikával végzett arckezelés a bőr revitalizálásáért és az arcizmok ellazításáért',
+    description:
+      'Svéd masszázs technikával végzett arckezelés a bőr revitalizálásáért és az arcizmok ellazításáért',
     prices: [{ duration: '30', price: '6.500' }],
   },
 ];
@@ -101,8 +102,16 @@ export default function PricesPage() {
 
       heroTl
         .to(taglineRef.current, { autoAlpha: 1, y: 0, letterSpacing: '0.25em', duration: 0.7 }, 0.2)
-        .to(decorLineRef.current, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0.4)
-        .to(headingRef.current, { autoAlpha: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1 }, 0.5)
+        .to(
+          decorLineRef.current,
+          { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: 'power2.inOut' },
+          0.4
+        )
+        .to(
+          headingRef.current,
+          { autoAlpha: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1 },
+          0.5
+        )
         .to(subtextRef.current, { autoAlpha: 1, y: 0, duration: 0.7 }, 0.9);
 
       // --- Cards staggered on load ---
@@ -197,12 +206,12 @@ export default function PricesPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link href="/">
-              <Image
-                src="/images/logo2.png"
-                alt="Bástya Masszázs"
-                width={160}
-                height={40}
-                className="h-10 w-auto"
+              <img
+                src="/images/test.png"
+                alt="Bástya masszázs"
+                width={200}
+                height={100}
+                className="h-22 mt-2 w-auto"
               />
             </Link>
             <Button
@@ -229,7 +238,10 @@ export default function PricesPage() {
             Kezelések & árak
           </span>
           <div className="flex justify-center mb-5">
-            <div ref={decorLineRef} className="invisible w-10 h-px bg-massage-green-dark/25 origin-center" />
+            <div
+              ref={decorLineRef}
+              className="invisible w-10 h-px bg-massage-green-dark/25 origin-center"
+            />
           </div>
           <h1
             ref={headingRef}
