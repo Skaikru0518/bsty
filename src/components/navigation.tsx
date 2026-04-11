@@ -61,13 +61,12 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-[4.5rem]">
             {/* Logo */}
             <Link href="#kezdolap" className="shrink-0">
-              <Image
+              <img
                 src="/images/test.png"
                 alt="Bástya masszázs"
                 width={200}
                 height={100}
                 className="h-22 mt-2 w-auto"
-                priority
               />
             </Link>
 
