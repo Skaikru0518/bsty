@@ -82,11 +82,11 @@ export default function Footer() {
         <div ref={columnsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div className="footer-col">
             <Image
-              src="/images/logo2.png"
+              src="/images/test.png"
               alt="Bástya Masszázs"
-              width={180}
-              height={45}
-              className="h-10 w-auto mb-4 brightness-0 invert"
+              width={105}
+              height={105}
+              className="h-26 w-auto mb-4 brightness-0 invert"
             />
             <p className="text-sm text-white/80 leading-relaxed mb-4">
               Professzionális masszázs szolgáltatások a tested és lelked harmóniájáért.
@@ -171,14 +171,8 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div
-          ref={dividerRef}
-          className="border-t border-white/20 origin-left"
-        />
-        <p
-          ref={copyrightRef}
-          className="invisible pt-8 text-center text-sm text-white/60"
-        >
+        <div ref={dividerRef} className="border-t border-white/20 origin-left" />
+        <p ref={copyrightRef} className="invisible pt-8 text-center text-sm text-white/60">
           &copy; {new Date().getFullYear()} Bástya Masszázs. Minden jog fenntartva.
         </p>
       </div>
