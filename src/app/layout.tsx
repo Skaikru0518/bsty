@@ -83,8 +83,8 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   icons: {
-    icon: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
   },
   category: 'health',
   verification: {

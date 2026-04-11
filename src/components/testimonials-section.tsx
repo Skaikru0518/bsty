@@ -29,13 +29,13 @@ export function TestimonialsSection() {
       gsap.set(decorLineRef.current, { autoAlpha: 0, scaleX: 0 });
       gsap.set(headingRef.current, { autoAlpha: 0, y: 40, clipPath: 'inset(0 0 100% 0)' });
       gsap.set(subtextRef.current, { autoAlpha: 0, y: 20 });
-      gsap.set(widgetRef.current, { autoAlpha: 0, y: 30 });
+      gsap.set(widgetRef.current, { opacity: 0, y: 30 });
 
       tl.to(taglineRef.current, { autoAlpha: 1, y: 0, letterSpacing: '0.25em', duration: 0.7 })
         .to(decorLineRef.current, { autoAlpha: 1, scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0.2)
         .to(headingRef.current, { autoAlpha: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1 }, 0.35)
         .to(subtextRef.current, { autoAlpha: 1, y: 0, duration: 0.7 }, 0.7)
-        .to(widgetRef.current, { autoAlpha: 1, y: 0, duration: 0.8 }, 0.9);
+        .to(widgetRef.current, { opacity: 1, y: 0, duration: 0.8 }, 0.9);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -68,12 +68,14 @@ export function TestimonialsSection() {
           </p>
         </div>
 
-        <div ref={widgetRef} className="invisible">
-          <Script src="https://static.elfsight.com/platform/platform.js" strategy="lazyOnload" />
-          <div
-            className="elfsight-app-e98fc5e6-1af1-40f5-9e51-a168efb91582"
-            data-elfsight-app-lazy
-          />
+        <div ref={widgetRef}>
+          <div className="relative">
+            <Script src="https://static.elfsight.com/platform/platform.js" strategy="afterInteractive" />
+            <div
+              className="elfsight-app-e98fc5e6-1af1-40f5-9e51-a168efb91582"
+              data-elfsight-app-lazy
+            />
+          </div>
         </div>
       </div>
     </section>
