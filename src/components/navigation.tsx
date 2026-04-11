@@ -54,9 +54,7 @@ export default function Navigation() {
     <>
       <nav
         className={`sticky top-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-massage-cream/95 backdrop-blur-xl shadow-sm'
-            : 'bg-massage-cream'
+          scrolled ? 'bg-massage-cream/95 backdrop-blur-xl shadow-sm' : 'bg-massage-cream'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -64,11 +62,11 @@ export default function Navigation() {
             {/* Logo */}
             <Link href="#kezdolap" className="shrink-0">
               <Image
-                src="/images/logo2.png"
+                src="/images/test.png"
                 alt="Bástya masszázs"
                 width={200}
-                height={50}
-                className="h-10 w-auto"
+                height={100}
+                className="h-22 mt-2 w-auto"
                 priority
               />
             </Link>
@@ -92,9 +90,7 @@ export default function Navigation() {
                         {/* Active dot indicator */}
                         <span
                           className={`absolute left-1/2 -translate-x-1/2 -bottom-1 w-1 h-1 rounded-full bg-massage-green transition-all duration-300 ${
-                            isActive
-                              ? 'opacity-100 scale-100'
-                              : 'opacity-0 scale-0'
+                            isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                           }`}
                         />
                       </Link>
@@ -165,9 +161,7 @@ export default function Navigation() {
                   href={link.href}
                   onClick={closeMenu}
                   className={`group flex items-center gap-5 py-3.5 transition-all ease-out ${
-                    isMenuOpen
-                      ? 'opacity-100 translate-y-0'
-                      : 'opacity-0 translate-y-3'
+                    isMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
                   }`}
                   style={{
                     transitionDuration: '400ms',

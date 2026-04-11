@@ -65,7 +65,7 @@ export const metadata: Metadata = {
       'Professzionális masszázs szolgáltatások Debrecenben. Svédmasszázs, sportmasszázs, köpölyözés és lávaköves masszázs. Foglalj időpontot még ma!',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/logo.png',
         width: 1200,
         height: 630,
         alt: 'Bástya Masszázs - Professzionális masszázs Debrecenben',
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     title: 'Bástya Masszázs | Professzionális masszázs Debrecenben',
     description:
       'Professzionális masszázs szolgáltatások Debrecenben. Svédmasszázs, sportmasszázs, köpölyözés és lávaköves masszázs.',
-    images: ['/og-image.jpg'],
+    images: ['/images/logo.png'],
   },
   alternates: {
     canonical: siteUrl,
