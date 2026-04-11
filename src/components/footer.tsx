@@ -81,7 +81,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={columnsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div className="footer-col">
-            <Image
+            <img
               src="/images/test.png"
               alt="Bástya Masszázs"
               width={105}
