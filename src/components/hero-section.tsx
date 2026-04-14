@@ -147,7 +147,7 @@ export default function HeroSection() {
           ref={taglineRef}
           className="inline-block text-xs sm:text-sm font-medium uppercase tracking-[0.25em] text-massage-green-dark/80 mb-6"
         >
-          Debrecen · 22 év tapasztalat
+          Debrecen · Professzionális masszázs
         </span>
 
         {/* Decorative line */}

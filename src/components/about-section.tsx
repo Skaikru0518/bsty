@@ -122,7 +122,7 @@ export default function AboutSection() {
               ref={taglineRef}
               className="invisible inline-block text-xs font-medium uppercase tracking-[0.25em] text-massage-green-dark/70 mb-3"
             >
-              22 év tapasztalat
+              Professzionális masszázs
             </span>
 
             <h2

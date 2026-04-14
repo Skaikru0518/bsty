@@ -211,7 +211,7 @@ export default function PricesPage() {
                 alt="Bástya masszázs"
                 width={200}
                 height={100}
-                className="h-22 mt-2 w-auto"
+                className="h-16 w-auto"
               />
             </Link>
             <Button

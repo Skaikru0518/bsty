@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: '%s | Bástya Masszázs',
   },
   description:
-    'Professzionális masszázs szolgáltatások Debrecenben. Svédmasszázs, sportmasszázs, köpölyözés, lávaköves masszázs és indiai fejmasszázs. 22 év tapasztalat. Foglalj időpontot még ma!',
+    'Professzionális masszázs szolgáltatások Debrecenben. Svédmasszázs, sportmasszázs, köpölyözés, lávaköves masszázs és indiai fejmasszázs. Foglalj időpontot még ma!',
   keywords: [
     'masszázs',
     'masszázs Debrecen',
